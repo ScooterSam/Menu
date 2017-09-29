@@ -1,0 +1,36 @@
+<?php
+
+namespace DummyNamespace;
+
+use ScooterSam\Menu\Menu;
+use ScooterSam\Menu\Builder\Singleton;
+
+class DummyClass extends Singleton
+{
+	public $menu;
+
+	public function menu()
+	{
+		//Create the menu
+		$menu = new Menu('DummyClass', 'DummyClass');
+		$menu->setDescription('A menu to do something.');
+		//Adds the menu to the database.
+		$menu->create();
+
+		$this->menu = $menu;
+	}
+
+	public function items()
+	{
+		//Add a normal item
+		$this->menu->add('title', 'slug')->route('home');
+
+		//Add a group of items.
+		$main = $this->menu->add('parent', 'parent')->route('home')->children();
+		$main->add('child', 'child')->route('home');
+
+		//Adds the items to the database.
+		$this->menu->addItems();
+	}
+
+}
